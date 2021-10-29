@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="sum_but" onclick="Calc.Summ()">операция</button>
+    <button class="sum_but" onclick="Calc.Update()">ответ</button>
+    <button class="number" onclick="Calc.AddNumber('1')"></button>
+    <input type="text" value="14" id="1">
+
+
+    
+
+
+
+    <script>    //////// scriiiiiiiiipt
+
+    class Calculator {
+        constructor (nRes, nSum, sBuf, idResF, idSumF) {
+            this.nRes = nRes;
+            this.nSum = nSum;
+            this.sBuf = sBuf;
+        }
+
+        AddNumber(newNum) {         //summary numbers in nSum when push number_button
+            this.sBuf += newNum;        // add new number in the end of string
+            this.nSum = +this.sBuf;          
+            +this.nSum;             // transform string to number
+        }
+
+        Clear() { 
+            this.sBuf = 0;
+            this.nSum = 0;
+            this.nRes = 0;
+        }    
+        
+        Update() {
+            this.idResF.value = this.nSum;
+        }
+
+        CheckException() { }
+
+        Result() { alert(this.nRes); }
+
+        Summ() { this.nRes += this.nSum; }
+
+        Subs() { this.nRes -= this.nSum; }
+
+        Mult() { this.nRes *= this.nSum; }
+
+        Divi() { this.nRes /= this.nSum; }
+
+        Remi() { this.nRes %= this.nSum; }
+
+        Degr() { this.nRes **= this.nSum; }
+  
+    }
+
+    const Calc = new Calculator (0, 0, '', document.getElementById(1), document.getElementById(1));
+
+    </script>
+</body>
+</html>
