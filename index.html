@@ -7,60 +7,72 @@
     <title>Document</title>
 </head>
 <body>
-    <button class="sum_but" onclick="Calc.Summ()">операция</button>
-    <button class="sum_but" onclick="Calc.Update()">ответ</button>
-    <button class="number" onclick="Calc.AddNumber('1')"></button>
-    <input type="text" value="14" id="1">
 
-
-    
+    <main>
+        <form class="calculator_block">
+            <div class="calculator_text">
+                <input type="text" class="calculator_result" id="1" value="0">
+            </div>
+            <div class="calculator_buttons">
+                <button class="calculator_button theme" onclick="Calc.Clear()">CE</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('**')">**</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('%')">%</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('/')">/</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('7')">7</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('8')">8</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('9')">9</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('*')">*</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('4')">4</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('5')">5</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('6')">6</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('')">-</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('1')">1</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('2')">2</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('3')">3</button>
+                <button class="calculator_button" onclick="Calc.AddSymbol('0')">0</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('.')">.</button>
+                <button class="calculator_button" onclick="Calc.Result()">=</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('+')">+</button>
+            </div>
+        </form>
+    </main>
 
 
 
     <script>    //////// scriiiiiiiiipt
 
     class Calculator {
-        constructor (nRes, nSum, sBuf, idResF, idSumF) {
+        constructor (nRes, sBuf, idResF) {
             this.nRes = nRes;
-            this.nSum = nSum;
             this.sBuf = sBuf;
+            this.idResF = idResF;
         }
 
-        AddNumber(newNum) {         //summary numbers in nSum when push number_button
+        AddSymbol(newNum) {         //summary numbers in nSum when push number_button or operation
             this.sBuf += newNum;        // add new number in the end of string
-            this.nSum = +this.sBuf;          
-            +this.nSum;             // transform string to number
+            Update();
         }
 
-        Clear() { 
-            this.sBuf = 0;
-            this.nSum = 0;
+        Clear() {                   // 
+            this.sBuf = '';
             this.nRes = 0;
+            Update();
         }    
         
-        Update() {
-            this.idResF.value = this.nSum;
+        Update() {         
+            alert('stonks');         // update output text field
+            this.idResF.value = this.sBuf;
         }
 
         CheckException() { }
 
-        Result() { alert(this.nRes); }
-
-        Summ() { this.nRes += this.nSum; }
-
-        Subs() { this.nRes -= this.nSum; }
-
-        Mult() { this.nRes *= this.nSum; }
-
-        Divi() { this.nRes /= this.nSum; }
-
-        Remi() { this.nRes %= this.nSum; }
-
-        Degr() { this.nRes **= this.nSum; }
+        Result() { 
+            
+         }
   
     }
 
-    const Calc = new Calculator (0, 0, '', document.getElementById(1), document.getElementById(1));
+    const Calc = new Calculator (0, '', document.getElementById('1'));
 
     </script>
 </body>
