@@ -1,17 +1,41 @@
 
+
+// TODO:    fix infinity            +
+//          fix %                   +
+//          fix -1, give brackets   
+//          add brackets
+//          fix brackets
+//          edit github ico
+//          fix max width           +-
+
+
 class Calculator {      
     constructor (idResF) {     
         this.idResF = idResF;   // output adress
         this.sBuf = '';         // string for math
-        this.nMax = 20;          // max calculator string
-        this.m = ["+", "-", "*", "/", "**", "%"];       // right operations    
+        this.nMax = 15;          // max calculator string
+        this.m = ["+", "-", "*", "/", "**", "%", "(", ")"];       // right operations
     }
 
     isException(n) {        // returns true if exception finded
+        if (this.sBuf == 'Infinity' || this.sBuf == '0')
+            this.sBuf = '';  
+
+         
+
         if(!this.isNumber(n)) 
         {
             if (!this.isNumber(this.sBuf[this.sBuf.length - 1]))        // if last symbol 
+            {
+                if(n == "-" || n == "(" || n == ")")        // add left bracket if minus after empty or operation
+                {   
+                    if(n == "-")            
+                        this.sBuf += "(";
+                    return false;
+                }  
                 return true;        // not a number (or empty), then cannot add operations
+            }
+                
 
             if(n == ".") {      // speial dot exception
                 for(let i = this.sBuf.length - 1; i >= 0; i--)  // check string from end
@@ -34,7 +58,7 @@ class Calculator {
 
     isOperator(op) {
         let e = false;  
-            for(let i = 0; i < this.m.length - 1; i++)
+            for(let i = 0; i < this.m.length; i++)
             {
                 if(this.m[i] == op)
                     e = true;
@@ -61,7 +85,6 @@ class Calculator {
 
     Clear() {     
         this.sBuf = '';
-        this.nRes = '';
         this.Update();
     }    
     
@@ -75,9 +98,10 @@ class Calculator {
 
         if(this.isOperator(this.sBuf[this.sBuf.length - 1]) || 
             this.sBuf[this.sBuf.length - 1] == ".") // check last symbol
-            return;
-  
-        this.sBuf = eval(this.sBuf); 
+                return;
+        
+        this.sBuf = eval(this.sBuf);        // math
+
         this.sBuf = String(this.sBuf);     // back to string     
         this.Update();
     }
