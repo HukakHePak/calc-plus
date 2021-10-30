@@ -7,9 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-
     <main>
-        <form class="calculator_block">
+        <div class="calculator_block">
             <div class="calculator_text">
                 <input type="text" class="calculator_result" id="1" value="0">
             </div>
@@ -25,7 +24,7 @@
                 <button class="calculator_button" onclick="Calc.AddSymbol('4')">4</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('5')">5</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('6')">6</button>
-                <button class="calculator_button theme" onclick="Calc.AddSymbol('')">-</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('-')">-</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('1')">1</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('2')">2</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('3')">3</button>
@@ -34,11 +33,8 @@
                 <button class="calculator_button" onclick="Calc.Result()">=</button>
                 <button class="calculator_button theme" onclick="Calc.AddSymbol('+')">+</button>
             </div>
-        </form>
+        </div>
     </main>
-
-
-
     <script>    //////// scriiiiiiiiipt
 
     class Calculator {
@@ -48,27 +44,26 @@
             this.idResF = idResF;
         }
 
-        AddSymbol(newNum) {         //summary numbers in nSum when push number_button or operation
+        AddSymbol(newNum) {         //summary numbers in nSum when push number_button
             this.sBuf += newNum;        // add new number in the end of string
-            Update();
+            this.Update();
         }
 
-        Clear() {                   // 
+        Clear() { 
             this.sBuf = '';
             this.nRes = 0;
-            Update();
+            this.Update();
         }    
         
-        Update() {         
-            alert('stonks');         // update output text field
+        Update() {
             this.idResF.value = this.sBuf;
         }
 
         CheckException() { }
 
-        Result() { 
-            
-         }
+        Result () {
+
+        }
   
     }
 
