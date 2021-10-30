@@ -4,31 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">   
     <title>Document</title>
 </head>
 <body>
+    <a href="https://github.com/HukakHePak" class="sign">HukakHePak</a>
     <main>
         <div class="calculator_block">
             <div class="calculator_text">
-                <input type="text" class="calculator_result" id="1" value="">
+                <p class="calculator_text-eva">=</p>
+                <input type="text" class="calculator_result" id="1" value="" disabled>
             </div>
             <div class="calculator_buttons">
                 <button class="calculator_button theme" onclick="Calc.Clear()">CE</button>
-                <button class="calculator_button theme" onclick="Calc.AddSymbol('**')">**</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('**')">^</button>
                 <button class="calculator_button theme" onclick="Calc.AddSymbol('%')">%</button>
-                <button class="calculator_button theme" onclick="Calc.DelSymbol()"><-</button>
-                <button class="calculator_button theme" onclick="Calc.AddSymbol('/')">/</button>
+                <button class="calculator_button theme" onclick="Calc.DelSymbol()">C</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('7')">7</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('8')">8</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('9')">9</button>
-                <button class="calculator_button theme" onclick="Calc.AddSymbol('*')">*</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('/')">÷</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('4')">4</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('5')">5</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('6')">6</button>
-                <button class="calculator_button theme" onclick="Calc.AddSymbol('-')">-</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('*')">×</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('1')">1</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('2')">2</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('3')">3</button>
+                <button class="calculator_button theme" onclick="Calc.AddSymbol('-')">-</button>
                 <button class="calculator_button" onclick="Calc.AddSymbol('0')">0</button>
                 <button class="calculator_button theme" onclick="Calc.AddSymbol('.')">.</button>
                 <button class="calculator_button" onclick="Calc.Result()">=</button>
@@ -36,95 +39,6 @@
             </div>
         </div>
     </main>
-    <script>    //////// scriiiiiiiiipt
-
-    class Calculator {      
-        constructor (idResF) {     
-            this.idResF = idResF;   // output adress
-            this.sBuf = '';         // string for math
-            this.nMax = 20;          // max calculator string
-            this.m = ["+", "-", "*", "/", "**", "%"];       // right operations    
-        }
-
-        isException(n) {        // returns true if exception finded
-            if(!this.isNumber(n)) 
-            {
-                if (!this.isNumber(this.sBuf[this.sBuf.length - 1]))        // if last symbol 
-                    return true;        // not a number (or empty), then cannot add operations
-
-                if(n == ".") {      // speial dot exception
-                    for(let i = this.sBuf.length - 1; i >= 0; i--)  // check string from end
-                    {               // for find operators
-                        if (!this.isNumber(this.sBuf[i])) 
-                            return this.sBuf[i] == "."; // if we finded operator, 
-                            // and it's not a dot, than not exception
-                    }   
-                    return false;  
-                }
-
-                if(!this.isOperator(n))   // if we hadn't this operator in our collection then exception
-                    return true;
-                
-                return false;
-            }
-        }
-
-        isNumber(n) { return n <= 9 && n >= 0; }
-
-        isOperator(op) {
-            let e = false;  
-                for(let i = 0; i < this.m.length - 1; i++)
-                {
-                    if(this.m[i] == op)
-                        e = true;
-                }
-            return e;
-        }
-
-        AddSymbol(newNum) {         //summary numbers in nSum when push number_button
-            if(this.sBuf.length >= this.nMax) return;       // size error
-            if(this.isException(newNum)) return;        // other errors
-            this.sBuf += newNum;        // add new number in the end of string
-            this.Update();
-        }
-
-        DelSymbol() {
-            let str = "";
-            for(let i = 0; i < this.sBuf.length - 1; i++)       // copy sting without last element
-            {
-                str += this.sBuf[i];
-            }
-            this.sBuf = str;
-            this.Update();
-        }
-
-        Clear() {     
-            this.sBuf = '';
-            this.nRes = '';
-            this.Update();
-        }    
-        
-        Update() {      // change output
-            this.idResF.value = this.sBuf;
-        }
-
-        Result () {         // easiest math
-            if(!this.sBuf)   // check empty
-                return;
-
-            if(this.isOperator(this.sBuf[this.sBuf.length - 1]) || 
-                this.sBuf[this.sBuf.length - 1] == ".") // check last symbol
-                return;
-      
-            this.sBuf = eval(this.sBuf); 
-            this.sBuf = String(this.sBuf);     // back to string     
-            this.Update();
-        }
-  
-    }
-
-    const Calc = new Calculator (document.getElementById('1'));
-
-    </script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
