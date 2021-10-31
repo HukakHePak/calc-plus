@@ -2,11 +2,11 @@
 
 // TODO:    fix infinity            +
 //          fix %                   +
-//          fix -1, give brackets   
-//          add brackets
-//          fix brackets
+//          fix -1, give brackets   +
+//          add brackets            +
+//          fix brackets for one number  
 //          edit github ico
-//          edit checks result
+//          edit checks result      
 //          fix max width           +-
 
 
@@ -14,77 +14,108 @@ class Calculator {
     constructor (idResF) {     
         this.idResF = idResF;   // output adress
         this.sBuf = '';         // string for math
-        this.nMax = 15;          // max calculator string
-        this.m = ["+", "-", "*", "/", "**", "%"];       // right operations
+        this.nMax = 18;         // max calculator string
+        this.m = ["+", "-", "*", "/", "**", "%"];       // right operators
+        this.count = 0;         // left brackets counter
     }
 
-    isException(n) {        // returns true if exception finded
-        if (this.sBuf == 'Infinity' || this.sBuf == '0')
-            this.sBuf = '';  
+    isException(n) {        // returns true if exception finded     
+        
+        let last = this.last();     // last symbol from sBuf
+        let lnum = this.isNum(last);
 
-         
-
-        if(!this.isNumber(n)) 
+        if(this.isNum(n))
+            return last == ")";  // not add number if ) is last symbol
+        else 
         {
-            if (!this.isNumber(this.sBuf[this.sBuf.length - 1]))        // if last symbol 
+            switch(n)
             {
-                if(n == "-" || n == "(" || n == ")")        // add left bracket if minus after empty or operation
-                {   
-                    if(n == "-")            
-                        this.sBuf += "(";
-                    return false;
-                }  
-                return true;        // not a number (or empty), then cannot add operations
+                case '(':
+                    if(this.sBuf == '' || this.isOp(last))   // add ( if buf empty or last symbol is operator
+                    {
+                        this.count++;    
+                        return false;
+                    }
+                    return true;
+                case ')':
+                    if(lnum && this.count)        // add ) if last symbol is number and have left brackets
+                    {
+                        this.count--;
+                        return false;
+                    }
+                    return true;
+                case '.':
+                    if (lnum)           // last symbol is number
+                    {
+                        for(let i = this.sBuf.length - 1; i >= 0; i--)  // check string from end
+                        {               // to start for find operators
+                            if (!this.isNum(this.sBuf[i]))   
+                                return this.sBuf[i] == "."; // if we finded operator or bracket, 
+                                // and it's not a dot, than not exception and add dot
+                        }   
+                        return false; 
+                    }
             }
-                
 
-            if(n == ".") {      // speial dot exception
-                for(let i = this.sBuf.length - 1; i >= 0; i--)  // check string from end
-                {               // for find operators
-                    if (!this.isNumber(this.sBuf[i])) 
-                        return this.sBuf[i] == "."; // if we finded operator, 
-                        // and it's not a dot, than not exception
-                }   
-                return false;  
-            }
-
-            if(!this.isOperator(n))   // if we hadn't this operator in our collection then exception
+            if (!this.isOp(n))  // if n not "good" operator, then not add
                 return true;
+
+            if (lnum || last == ")")     // can add operator only after number or bracket
+                return false;
+
+            if (!(n == "-" && last != "." && last != "-"))        // special for minus, cant add after dot and minus
+                return true;
+
+            if (last != "(" )      
+            {
+                this.sBuf += "(";
+                this.count++;
+            }
             
             return false;
         }
     }
 
-    isNumber(n) { return n <= 9 && n >= 0; }    // barckets is number for add
+    isNum(n) { return n <= 9 && n >= 0; }   
+    last() { return this.sBuf[this.sBuf.length - 1]; }     // last symbol of buf
 
-    isOperator(op) {
-        let e = false;  
-            for(let i = 0; i < this.m.length; i++)
-            {
-                if(this.m[i] == op)
-                    e = true;
-            }
-        return e;
+    isOp(op) {        // return true if we have operator
+        for(let i = 0; i < this.m.length; i++)
+        {
+            if(this.m[i] == op)
+                return true;
+        }
+        return false;
     }
 
     AddSymbol(newNum) {         //summary numbers in nSum when push number_button
-        if(this.sBuf.length >= this.nMax) return;       // size error
-        if(this.isException(newNum)) return;        // other errors
+        if (this.sBuf == 'Infinity' || this.sBuf == '0')
+            this.sBuf = '';         // clear
+
+        if(this.sBuf.length >= this.nMax) return;       // size exc
+        if(this.isException(newNum)) return;        // other exc
+
         this.sBuf += newNum;        // add new number in the end of string
         this.Update();
     }
 
     DelSymbol() {
         let str = "";
-        for(let i = 0; i < this.sBuf.length - 1; i++)       // copy sting without last element
+        this.count = 0;
+        for(let i = 0; i < this.sBuf.length - 1; i++)       // copy string without last element
         {
             str += this.sBuf[i];
+            if (this.sBuf[i] == "(")
+                this.count++;
+            if (this.sBuf[i] == ")")
+                this.count--;
         }
         this.sBuf = str;
         this.Update();
     }
 
-    Clear() {     
+    Clear() { 
+        this.count = 0;
         this.sBuf = '';
         this.Update();
     }    
@@ -97,15 +128,12 @@ class Calculator {
         if(!this.sBuf)   // check empty
             return;
 
-        if((this.isOperator(this.sBuf[this.sBuf.length - 1]) || 
-            this.sBuf[this.sBuf.length - 1] == ".")) // check last symbol
-                return; // mb delete and check sBuf for NaN
-        
-        alert(this.sBuf);
-        this.sBuf = eval(this.sBuf);        // math
-
-        this.sBuf = String(this.sBuf);     // back to string     
+        let l = this.last();
+        if(this.isNum(l) || l == ")")
+        {  
+        this.sBuf = String(eval(this.sBuf));     // math, returns as string    
         this.Update();
+        }
     }
 
 }
