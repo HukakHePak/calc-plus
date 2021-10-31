@@ -6,6 +6,7 @@
 //          add brackets
 //          fix brackets
 //          edit github ico
+//          edit checks result
 //          fix max width           +-
 
 
@@ -14,7 +15,7 @@ class Calculator {
         this.idResF = idResF;   // output adress
         this.sBuf = '';         // string for math
         this.nMax = 15;          // max calculator string
-        this.m = ["+", "-", "*", "/", "**", "%", "(", ")"];       // right operations
+        this.m = ["+", "-", "*", "/", "**", "%"];       // right operations
     }
 
     isException(n) {        // returns true if exception finded
@@ -54,7 +55,7 @@ class Calculator {
         }
     }
 
-    isNumber(n) { return n <= 9 && n >= 0; }
+    isNumber(n) { return n <= 9 && n >= 0; }    // barckets is number for add
 
     isOperator(op) {
         let e = false;  
@@ -96,10 +97,11 @@ class Calculator {
         if(!this.sBuf)   // check empty
             return;
 
-        if(this.isOperator(this.sBuf[this.sBuf.length - 1]) || 
-            this.sBuf[this.sBuf.length - 1] == ".") // check last symbol
-                return;
+        if((this.isOperator(this.sBuf[this.sBuf.length - 1]) || 
+            this.sBuf[this.sBuf.length - 1] == ".")) // check last symbol
+                return; // mb delete and check sBuf for NaN
         
+        alert(this.sBuf);
         this.sBuf = eval(this.sBuf);        // math
 
         this.sBuf = String(this.sBuf);     // back to string     
