@@ -4,9 +4,9 @@
 //          fix %                   +
 //          fix -1, give brackets   +
 //          add brackets            +
-//          fix brackets for one number  
-//          edit github ico
-//          edit checks result      
+//          fix brackets for one number  +
+//          
+//          edit checks result      +    
 //          fix max width           +-
 
 
@@ -31,15 +31,32 @@ class Calculator {
             switch(n)
             {
                 case '(':
-                    if(this.sBuf == '' || this.isOp(last))   // add ( if buf empty or last symbol is operator
+                    if(this.sBuf == '' || this.isOp(last) || last == "(")   // add ( if buf empty or last symbol is operator
                     {
                         this.count++;    
                         return false;
                     }
                     return true;
                 case ')':
-                    if(lnum && this.count)        // add ) if last symbol is number and have left brackets
+                    if((lnum || last == ")") && this.count)        // add ) if last symbol is number and have left brackets
                     {
+                        if(last != ")")     // checking only for first bracket
+                        {
+                            for(let i = this.sBuf.length - 1; i >= 0; i--)  // check string from end
+                            {                                               // to start for find operators
+                                if (!this.isNum(this.sBuf[i]))          // if we are found operator or bracket or point,  
+                                {
+                                    if(this.sBuf[i] == ".")     // if it's point or go next
+                                        continue;
+
+                                    if(this.sBuf[i] == "(")
+                                        return true;       // if found left bracket than not add
+
+                                    if(this.isOp(this.sBuf[i]))
+                                        break;
+                                }                                // for cant use simple number in brackets
+                            } 
+                        }           
                         this.count--;
                         return false;
                     }

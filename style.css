@@ -334,6 +334,7 @@ body {
     width: 100%;
     min-height: 100vh;
     background-size: cover;
+    position: relative;
 }
 
 /* timer of moz for links on hover/active/focus */
@@ -435,10 +436,6 @@ body {
     color: rgb(81, 201, 220);
 }
 
-.header_calc {
-
-}
-
 .sign {
     display: block;
     position: absolute;
@@ -456,9 +453,13 @@ body {
 }
 
 .calculator_link {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
+    background: url(./images/gh-ico-cyan.png) no-repeat center center;
+    background-size: 85%, auto, cover;
+}
+
+.calculator_link:hover {
+    background: url(./images/gh-ico-dark.png) no-repeat center center;
+    background-size: 85%, auto, cover;
 }
 
 .calc_link-img {
