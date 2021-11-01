@@ -427,7 +427,7 @@ body {
 
 .theme {
     background: rgb(81, 201, 220);
-    color: rgb(30, 36, 52);
+    color: rgb(30, 36, 52);    
 }
 
 .theme:hover {
@@ -483,6 +483,26 @@ body {
 
 .sign {
     visibility: hidden;
+}
+
+.theme:hover {
+    background: rgb(81, 201, 220);
+    color: rgb(30, 36, 52);    
+}
+
+.theme:active {
+    background: rgb(30, 36, 52);
+    color: rgb(81, 201, 220);
+}
+
+.calculator_button:hover {
+    background: rgb(30, 36, 52);
+    color: rgb(81, 201, 220);
+}
+
+.calculator_button:active {
+    background: rgb(81, 201, 220);
+    color: rgb(30, 36, 52);
 }
 
 }
