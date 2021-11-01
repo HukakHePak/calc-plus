@@ -393,7 +393,6 @@ body {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, 1fr);
     row-gap:13px;
     column-gap: 18px;
     
@@ -465,4 +464,28 @@ body {
 .calc_link-img {
     width: 80%;
     height: auto;
+}
+
+
+/* ------ MOBILE ------*/
+
+@media (max-width: 768px) {
+
+body {
+    background: rgb(26, 26, 40);
+}
+
+.calculator_block {
+    height: auto;
+    margin-top: 0px;
+    box-shadow: none;
+}
+
+.calculator_buttons {
+}
+
+.sign {
+    visibility: hidden;
+}
+
 }
