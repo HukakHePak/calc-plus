@@ -25,7 +25,12 @@ class Calculator {
         let lnum = this.isNum(last);
 
         if(this.isNum(n))
-            return last == ")";  // not add number if ) is last symbol
+        {
+            if (this.sBuf == '0')
+            this.sBuf = '';      
+            return last == ")";  // not add number if ) is last symbol   // clear
+        }
+            
         else 
         {
             switch(n)
@@ -106,9 +111,8 @@ class Calculator {
     }
 
     AddSymbol(newNum) {         //summary numbers in nSum when push number_button
-        if (this.sBuf == 'Infinity' || this.sBuf == '0')
-            this.sBuf = '';         // clear
-
+        if (this.sBuf == 'Infinity')
+        this.sBuf = '';
         if(this.sBuf.length >= this.nMax) return;       // size exc
         if(this.isException(newNum)) return;        // other exc
 
