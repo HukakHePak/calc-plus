@@ -158,7 +158,7 @@ class Calculator {
             
             this.Update();
             
-            if(this.sBuf == 'Infinity') { 
+            if(this.sBuf == 'Infinity' || this.sBuf == 'NaN') { 
                 brokeCalculator();
                 this.idResF.value = 'What???'
             }      
@@ -178,7 +178,6 @@ function brokeCalculator() {
             side: index % 2,
             height: 600,
             rotation: 20 * (Math.random() - 0.5),
-            time: Math.random() * 10
         });
     });
 }
@@ -225,13 +224,21 @@ function getY(x, options) {
 const options = {  
     y: 180,
     x: 60 ,
-    angle: 50 ,
-    speed: 1,
-    side: 1,
+    angle: 50,
+    speed: 2,
+    side: 0,
     height: 700,
-    rotation: 5
+    rotation: 2
 };
 
-//setTimeout(brokeCalculator, 500);
+const buttons = document.querySelectorAll('button');
+
+setTimeout(() => Calc.AddSymbol('0'), 500);
+setTimeout(() => Calc.AddSymbol('/'), 1000);
+setTimeout(() => Calc.AddSymbol('0'), 1500);
+setTimeout(() => Calc.Result(), 3000);
+
+setTimeout(() => location.reload(), 5000);
+
 //setTimeout(fallDown(document.querySelector('button'), options), 500);
 
