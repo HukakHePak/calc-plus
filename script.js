@@ -99,6 +99,7 @@ class Calculator {
     }
 
     isNum(n) { return n <= 9 && n >= 0; }   
+
     last() { return this.sBuf[this.sBuf.length - 1]; }     // last symbol of buf
 
     isOp(op) {        // return true if we have operator
@@ -150,13 +151,87 @@ class Calculator {
             return;
 
         let l = this.last();
+
         if(this.isNum(l) || l == ")")
         {  
-        this.sBuf = String(eval(this.sBuf));     // math, returns as string    
-        this.Update();
+            this.sBuf = String(eval(this.sBuf));     // math, returns as string 
+            
+            this.Update();
+            
+            if(this.sBuf == 'Infinity') { 
+                brokeCalculator();
+                this.idResF.value = 'What???'
+            }      
         }
     }
-
 }
 
 const Calc = new Calculator (document.getElementById('1'));
+
+function brokeCalculator() {
+    Array.from(document.querySelectorAll('.calculator_button')).reverse().forEach( (button, index) => {
+        fallDown(button, {  
+            y: 180 * Math.random(),
+            x: 60 * Math.random(),
+            angle: 400 * Math.random(),
+            speed: 2 + 2 * Math.random(),
+            side: index % 2,
+            height: 600,
+            rotation: 20 * (Math.random() - 0.5),
+            time: Math.random() * 10
+        });
+    });
+}
+
+function fallDown(element, options) {
+    const begins = {
+        x: element.offsetLeft,
+        y: element.offsetTop
+    }
+
+    let rotate = options.rotation;
+
+    element.style.position = 'fixed';
+
+    element.style.left = begins.x + 'px';
+    element.style.top = begins.y + 'px';
+    element.style.transition = 'none';
+
+    function timeLap() {    
+        if(element.offsetTop > begins.y + options.height) {
+            element.style.visibility = 'hidden';
+            return;
+        }
+    
+        element.style.left = element.offsetLeft + (options.side ? 1 : -1) * options.speed + 'px';
+        element.style.top = begins.y + getY((options.side ? 1 : -1) * (element.offsetLeft - begins.x), options)  + 'px';
+    
+        element.style.transform = `rotate(${ rotate }deg)`;
+        rotate += options.rotation;
+
+        setTimeout( () => {
+            timeLap();
+        }, options.speed );
+    }
+    
+    timeLap();
+}
+
+function getY(x, options) {
+    return Math.pow(( x - options.x), 2) / options.angle - options.y;
+}
+
+
+const options = {  
+    y: 180,
+    x: 60 ,
+    angle: 50 ,
+    speed: 1,
+    side: 1,
+    height: 700,
+    rotation: 5
+};
+
+//setTimeout(brokeCalculator, 500);
+//setTimeout(fallDown(document.querySelector('button'), options), 500);
+
