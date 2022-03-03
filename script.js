@@ -219,26 +219,3 @@ function fallDown(element, options) {
 function getY(x, options) {
     return Math.pow(( x - options.x), 2) / options.angle - options.y;
 }
-
-
-const options = {  
-    y: 180,
-    x: 60 ,
-    angle: 50,
-    speed: 2,
-    side: 0,
-    height: 700,
-    rotation: 2
-};
-
-const buttons = document.querySelectorAll('button');
-
-setTimeout(() => Calc.AddSymbol('0'), 500);
-setTimeout(() => Calc.AddSymbol('/'), 1000);
-setTimeout(() => Calc.AddSymbol('0'), 1500);
-setTimeout(() => Calc.Result(), 3000);
-
-setTimeout(() => location.reload(), 5000);
-
-//setTimeout(fallDown(document.querySelector('button'), options), 500);
-
